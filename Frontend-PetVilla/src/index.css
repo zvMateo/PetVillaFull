@@ -1,0 +1,663 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Add PetVilla custom colors to Tailwind */
+  /* --color-pet-primary: var(--pet-primary); */
+  /* --color-pet-primary-light: var(--pet-pri */
+  /* VetConnect Design System - Green Primary Palette */
+  --color-pet-primary: #22c55e;
+  --color-pet-primary-light: #4ade80;
+  --color-pet-primary-dark: #16a34a;
+  --color-pet-primary-hover: #15803d;
+
+  --color-pet-secondary: #1e3a5f;
+  --color-pet-secondary-light: #2d4a6f;
+  --color-pet-secondary-dark: #0f2847;
+
+  --color-pet-accent: #f59e0b;
+  --color-pet-accent-light: #fbbf24;
+  --color-pet-accent-dark: #d97706;
+
+  --color-pet-success: #22c55e;
+  --color-pet-success-light: #4ade80;
+  --color-pet-success-dark: #16a34a;
+
+  --color-pet-error: #ef4444;
+  --color-pet-error-light: #f87171;
+  --color-pet-error-dark: #dc2626;
+
+  --color-pet-warning: #f59e0b;
+  --color-pet-warning-light: #fbbf24;
+  --color-pet-warning-dark: #d97706;
+
+  --color-pet-info: #3b82f6;
+  --color-pet-info-light: #60a5fa;
+  --color-pet-info-dark: #2563eb;
+
+  --color-pet-neutral-50: #f9fafb;
+  --color-pet-neutral-100: #f3f4f6;
+  --color-pet-neutral-200: #e5e7eb;
+  --color-pet-neutral-300: #d1d5db;
+  --color-pet-neutral-400: #9ca3af;
+  --color-pet-neutral-500: #6b7280;
+  --color-pet-neutral-600: #4b5563;
+  --color-pet-neutral-700: #374151;
+  --color-pet-neutral-800: #1f2937;
+  --color-pet-neutral-900: #111827;
+
+  --color-pet-emerald-50: #ecfdf5;
+  --color-pet-emerald-100: #d1fae5;
+  --color-pet-emerald-500: #22c55e;
+}
+
+/* PetVilla Design System - VetConnect Style */
+
+/* ===== VetConnect Color Palette ===== */
+:root {
+  /* VetConnect Brand Colors - Green Primary */
+  --pet-primary: #22c55e;
+  --pet-primary-light: #4ade80;
+  --pet-primary-dark: #16a34a;
+  --pet-primary-hover: #15803d;
+
+  --pet-secondary: #1e3a5f;
+  --pet-secondary-light: #2d4a6f;
+  --pet-secondary-dark: #0f2847;
+
+  --pet-accent: #f59e0b;
+  --pet-accent-light: #fbbf24;
+  --pet-accent-dark: #d97706;
+
+  --pet-success: #22c55e;
+  --pet-success-light: #4ade80;
+  --pet-success-dark: #16a34a;
+
+  --pet-error: #ef4444;
+  --pet-error-light: #f87171;
+  --pet-error-dark: #dc2626;
+
+  --pet-warning: #f59e0b;
+  --pet-warning-light: #fbbf24;
+  --pet-warning-dark: #d97706;
+
+  --pet-info: #3b82f6;
+  --pet-info-light: #60a5fa;
+  --pet-info-dark: #2563eb;
+
+  /* Background Colors */
+  --pet-background-light: #ffffff;
+  --pet-background-dark: #0f172a;
+
+  --pet-surface-light: #ffffff;
+  --pet-surface-dark: #1e293b;
+
+  /* Text Colors */
+  --pet-text-main-light: #111827;
+  --pet-text-main-dark: #f9fafb;
+
+  --pet-text-sub-light: #6b7280;
+  --pet-text-sub-dark: #9ca3af;
+
+  /* Border Colors */
+  --pet-border-light: #e5e7eb;
+  --pet-border-dark: #374151;
+
+  /* Neutral Palette */
+  --pet-neutral-50: #f9fafb;
+  --pet-neutral-100: #f3f4f6;
+  --pet-neutral-200: #e5e7eb;
+  --pet-neutral-300: #d1d5db;
+  --pet-neutral-400: #9ca3af;
+  --pet-neutral-500: #6b7280;
+  --pet-neutral-600: #4b5563;
+  --pet-neutral-700: #374151;
+  --pet-neutral-800: #1f2937;
+  --pet-neutral-900: #111827;
+
+  /* Typography Scale */
+  --pet-text-xs: 0.75rem;
+  --pet-text-sm: 0.875rem;
+  --pet-text-base: 1rem;
+  --pet-text-lg: 1.125rem;
+  --pet-text-xl: 1.25rem;
+  --pet-text-2xl: 1.5rem;
+  --pet-text-3xl: 1.875rem;
+  --pet-text-4xl: 2.25rem;
+  --pet-text-5xl: 3rem;
+
+  /* Spacing Scale */
+  --pet-space-1: 0.25rem;
+  --pet-space-2: 0.5rem;
+  --pet-space-3: 0.75rem;
+  --pet-space-4: 1rem;
+  --pet-space-5: 1.25rem;
+  --pet-space-6: 1.5rem;
+  --pet-space-8: 2rem;
+  --pet-space-10: 2.5rem;
+  --pet-space-12: 3rem;
+  --pet-space-16: 4rem;
+  --pet-space-20: 5rem;
+
+  /* Border Radius */
+  --pet-radius-sm: 0.25rem;
+  --pet-radius-md: 0.375rem;
+  --pet-radius-lg: 0.5rem;
+  --pet-radius-xl: 0.75rem;
+  --pet-radius-2xl: 1rem;
+  --pet-radius-3xl: 1.5rem;
+  --pet-radius-full: 9999px;
+
+  /* Shadows */
+  --pet-shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.05);
+  --pet-shadow: 0 1px 3px 0 oklch(0 0 0 / 0.1),
+    0 1px 2px -1px oklch(0 0 0 / 0.1);
+  --pet-shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.1),
+    0 2px 4px -2px oklch(0 0 0 / 0.1);
+  --pet-shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.1),
+    0 4px 6px -4px oklch(0 0 0 / 0.1);
+  --pet-shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.1),
+    0 8px 10px -6px oklch(0 0 0 / 0.1);
+
+  /* Transitions */
+  --pet-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --pet-transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --pet-transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Enhanced Typography ===== */
+:root {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-heading: "Poppins", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Enhanced Animations ===== */
+@keyframes pet-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pet-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pet-scale-up {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pet-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes pet-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pet-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Animation Classes */
+.pet-animate-fade-in {
+  animation: pet-fade-in var(--pet-transition-normal) ease-out;
+}
+
+.pet-animate-slide-up {
+  animation: pet-slide-up var(--pet-transition-normal) ease-out;
+}
+
+.pet-animate-scale-up {
+  animation: pet-scale-up var(--pet-transition-normal) ease-out;
+}
+
+.pet-animate-pulse {
+  animation: pet-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.pet-animate-spin {
+  animation: pet-spin 1s linear infinite;
+}
+
+.pet-animate-bounce {
+  animation: pet-bounce 1s ease-in-out infinite;
+}
+
+/* ===== Enhanced Component Styles ===== */
+.pet-card {
+  @apply bg-white rounded-xl shadow-md border border-pet-neutral-200;
+  transition: all var(--pet-transition-normal);
+}
+
+.pet-card:hover {
+  @apply shadow-lg;
+  transform: translateY(-2px);
+  box-shadow: var(--pet-shadow-lg);
+}
+
+.pet-button-primary {
+  @apply bg-pet-primary text-white rounded-lg px-6 py-3 font-medium;
+  transition: all var(--pet-transition-fast);
+}
+
+.pet-button-primary:hover {
+  @apply bg-pet-primary-dark;
+  transform: translateY(-1px);
+  box-shadow: var(--pet-shadow-md);
+}
+
+.pet-button-secondary {
+  @apply bg-pet-secondary text-white rounded-lg px-6 py-3 font-medium;
+  transition: all var(--pet-transition-fast);
+}
+
+.pet-button-secondary:hover {
+  @apply bg-pet-secondary-dark;
+  transform: translateY(-1px);
+  box-shadow: var(--pet-shadow-md);
+}
+
+.pet-input {
+  @apply border-pet-neutral-300 rounded-lg px-4 py-3 text-pet-neutral-900 placeholder-pet-neutral-500;
+  transition: all var(--pet-transition-fast);
+}
+
+.pet-input:focus {
+  @apply border-pet-primary ring-2 ring-pet-primary/20;
+  outline: none;
+}
+
+/* ===== Micro-interactions ===== */
+.pet-hover-lift {
+  transition: transform var(--pet-transition-fast);
+}
+
+.pet-hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.pet-hover-scale {
+  transition: transform var(--pet-transition-fast);
+}
+
+.pet-hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.pet-hover-glow {
+  transition: box-shadow var(--pet-transition-fast);
+}
+
+.pet-hover-glow:hover {
+  box-shadow: 0 0 20px var(--pet-primary/20);
+}
+
+.pet-pulse-on-hover:hover {
+  animation: pet-pulse 2s infinite;
+}
+
+.pet-bounce-on-hover:hover {
+  animation: pet-bounce 0.5s ease-in-out;
+}
+
+.pet-rotate-on-hover:hover {
+  animation: pet-rotate 0.3s ease-in-out;
+}
+
+/* ===== Focus States ===== */
+.pet-focus-ring:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: var(--pet-primary);
+  ring-offset: 2px;
+}
+
+.pet-focus-visible:focus-visible {
+  outline: 2px solid var(--pet-primary);
+  outline-offset: 2px;
+}
+
+/* ===== Loading States ===== */
+.pet-loading-skeleton {
+  @apply bg-pet-neutral-200 rounded animate-pulse;
+}
+
+.pet-loading-spinner {
+  @apply w-6 h-6 border-2 border-pet-primary border-t-transparent rounded-full;
+  animation: pet-spin 1s linear infinite;
+}
+
+.pet-loading-dots {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.pet-loading-dots > div {
+  @apply w-2 h-2 bg-pet-primary rounded-full;
+  animation: pet-bounce 1.4s ease-in-out infinite both;
+}
+
+.pet-loading-dots > div:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.pet-loading-dots > div:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.pet-loading-dots > div:nth-child(3) {
+  animation-delay: 0;
+}
+
+/* ===== Empty States ===== */
+.pet-empty-state {
+  @apply text-center py-12;
+}
+
+.pet-empty-state-icon {
+  @apply w-16 h-16 mx-auto mb-4 text-pet-neutral-400;
+}
+
+.pet-empty-state-title {
+  @apply text-xl font-semibold text-pet-neutral-700 mb-2;
+}
+
+.pet-empty-state-description {
+  @apply text-pet-neutral-500 mb-6;
+}
+
+/* ===== Role-based Styles ===== */
+.pet-consumer-theme {
+  --role-primary: var(--pet-primary);
+  --role-secondary: var(--pet-secondary);
+  --role-accent: var(--pet-accent);
+}
+
+.pet-vet-theme {
+  --role-primary: var(--pet-secondary);
+  --role-secondary: var(--pet-primary);
+  --role-accent: var(--pet-info);
+}
+
+.pet-clinic-theme {
+  --role-primary: var(--pet-info);
+  --role-secondary: var(--pet-accent);
+  --role-accent: var(--pet-success);
+}
+
+/* ===== Responsive Utilities ===== */
+@media (max-width: 640px) {
+  .pet-responsive-card {
+    @apply rounded-lg;
+  }
+
+  .pet-responsive-text {
+    @apply text-sm;
+  }
+
+  .pet-responsive-padding {
+    @apply px-4 py-3;
+  }
+
+  .pet-responsive-grid {
+    @apply grid-cols-1 gap-4;
+  }
+
+  .pet-responsive-flex {
+    @apply flex-col;
+  }
+
+  .pet-responsive-center {
+    @apply text-center;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .pet-responsive-grid {
+    @apply grid-cols-2 gap-6;
+  }
+
+  .pet-responsive-padding {
+    @apply px-6 py-4;
+  }
+}
+
+@media (min-width: 1025px) {
+  .pet-responsive-grid {
+    @apply grid-cols-3 gap-8;
+  }
+
+  .pet-responsive-padding {
+    @apply px-8 py-6;
+  }
+}
+
+/* ===== Mobile Optimizations ===== */
+@media (max-width: 640px) {
+  .pet-mobile-full-width {
+    @apply w-full;
+  }
+
+  .pet-mobile-stack {
+    @apply flex-col space-y-4;
+  }
+
+  .pet-mobile-hidden {
+    @apply hidden;
+  }
+
+  .pet-mobile-text-lg {
+    @apply text-lg;
+  }
+
+  .pet-mobile-button-full {
+    @apply w-full py-4;
+  }
+
+  .pet-mobile-card-compact {
+    @apply p-4;
+  }
+
+  .pet-mobile-scroll-horizontal {
+    @apply overflow-x-auto whitespace-nowrap;
+  }
+}
+
+/* ===== Dark Mode Enhancements ===== */
+.dark .pet-card {
+  @apply bg-pet-neutral-800 border-pet-neutral-700;
+}
+
+.dark .pet-button-primary:hover {
+  @apply bg-pet-primary-dark;
+}
+
+.dark .pet-button-secondary:hover {
+  @apply bg-pet-secondary-dark;
+}
+
+.dark .pet-input {
+  @apply bg-pet-neutral-700 border-pet-neutral-600 text-pet-neutral-100;
+}
+
+.dark .pet-input:focus {
+  @apply border-pet-primary ring-2 ring-pet-primary/20;
+}
+
+.dark .pet-loading-skeleton {
+  @apply bg-pet-neutral-700;
+}
+
+.dark .pet-empty-state-icon {
+  @apply text-pet-neutral-600;
+}
+
+.dark .pet-empty-state-title {
+  @apply text-pet-neutral-300;
+}
+
+.dark .pet-empty-state-description {
+  @apply text-pet-neutral-500;
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

@@ -1,0 +1,279 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Role {
+  CONSUMER
+  VET_INDIVIDUAL
+  CLINIC_ADMIN
+  CLINIC_EMPLOYEE
+}
+
+enum ClinicMemberRole {
+  ADMIN
+  EMPLOYEE
+}
+
+enum Species {
+  DOG
+  CAT
+  BIRD
+  RABBIT
+  HAMSTER
+  OTHER
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum PointTransactionType {
+  EARNED_SERVICE
+  REDEEMED_REWARD
+  ADJUSTMENT
+}
+
+// ============================================
+// USERS & PROFILES
+// ============================================
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  password  String?
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile           Profile?
+  freelancerProfile FreelancerProfile?
+  clinicMemberships ClinicMember[]
+  pets              Pet[]
+  appointments      Appointment[]
+  reviewsAuthored   Review[]           @relation("ReviewAuthor")
+  pointTransactions PointTransaction[]
+}
+
+model Profile {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @unique @db.Uuid
+  firstName String?
+  lastName  String?
+  phone     String?
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ClinicProfile {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  description String?
+  address     String
+  phone       String?
+  email       String?
+  website     String?
+  location    Unsupported("geography(Point,4326)")?
+  is24Hours   Boolean  @default(false)
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members           ClinicMember[]
+  services          Service[]
+  availabilitySlots AvailabilitySlot[]
+
+  @@index([location])
+}
+
+model ClinicMember {
+  id       String           @id @default(uuid()) @db.Uuid
+  userId   String           @db.Uuid
+  clinicId String           @db.Uuid
+  role     ClinicMemberRole
+  joinedAt DateTime         @default(now())
+
+  user   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clinic ClinicProfile @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, clinicId])
+  @@index([clinicId])
+}
+
+model FreelancerProfile {
+  id              String   @id @default(uuid()) @db.Uuid
+  userId          String   @unique @db.Uuid
+  bio             String?
+  licenseNumber   String?
+  specialties     String[]
+  serviceRadiusKm Int      @default(10)
+  baseLocation    Unsupported("geography(Point,4326)")?
+  imageUrl        String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  services          Service[]
+  availabilitySlots AvailabilitySlot[]
+
+  @@index([baseLocation])
+}
+
+// ============================================
+// PETS
+// ============================================
+
+model Pet {
+  id        String    @id @default(uuid()) @db.Uuid
+  ownerId   String    @db.Uuid
+  name      String
+  species   Species
+  breed     String?
+  birthDate DateTime?
+  weight    Decimal?  @db.Decimal(5, 2)
+  imageUrl  String?
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  owner        User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+
+  @@index([ownerId])
+}
+
+// ============================================
+// SERVICES & AVAILABILITY
+// ============================================
+
+model Service {
+  id           String   @id @default(uuid()) @db.Uuid
+  clinicId     String?  @db.Uuid
+  freelancerId String?  @db.Uuid
+  title        String
+  description  String?
+  category     String
+  priceFrom    Decimal? @db.Decimal(10, 2)
+  duration     Int?
+  pointsReward Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  clinic       ClinicProfile?     @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  freelancer   FreelancerProfile? @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+
+  @@index([clinicId])
+  @@index([freelancerId])
+  @@index([category])
+}
+
+model AvailabilitySlot {
+  id           String  @id @default(uuid()) @db.Uuid
+  clinicId     String? @db.Uuid
+  freelancerId String? @db.Uuid
+  dayOfWeek    Int
+  startTime    String
+  endTime      String
+  isActive     Boolean @default(true)
+
+  clinic     ClinicProfile?     @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  freelancer FreelancerProfile? @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+
+  @@index([clinicId])
+  @@index([freelancerId])
+}
+
+// ============================================
+// APPOINTMENTS
+// ============================================
+
+model Appointment {
+  id         String            @id @default(uuid()) @db.Uuid
+  consumerId String            @db.Uuid
+  serviceId  String            @db.Uuid
+  petId      String            @db.Uuid
+  dateTime   DateTime
+  status     AppointmentStatus @default(PENDING)
+  notes      String?
+  location   Unsupported("geography(Point,4326)")?
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+
+  consumer User    @relation(fields: [consumerId], references: [id], onDelete: Cascade)
+  service  Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  pet      Pet     @relation(fields: [petId], references: [id], onDelete: Cascade)
+
+  @@index([consumerId])
+  @@index([serviceId])
+  @@index([status])
+  @@index([dateTime])
+}
+
+// ============================================
+// REVIEWS
+// ============================================
+
+model Review {
+  id        String   @id @default(uuid()) @db.Uuid
+  authorId  String   @db.Uuid
+  targetId  String   @db.Uuid
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author User @relation("ReviewAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([authorId])
+  @@index([targetId])
+}
+
+// ============================================
+// GAMIFICATION (LOYALTY POINTS)
+// ============================================
+
+model PointTransaction {
+  id          String               @id @default(uuid()) @db.Uuid
+  consumerId  String               @db.Uuid
+  amount      Int
+  type        PointTransactionType
+  referenceId String?              @db.Uuid
+  description String?
+  createdAt   DateTime             @default(now())
+
+  consumer User @relation(fields: [consumerId], references: [id], onDelete: Cascade)
+
+  @@index([consumerId])
+  @@index([type])
+}
+
+model Reward {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  description String?
+  costPoints  Int
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
